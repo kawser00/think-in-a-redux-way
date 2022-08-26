@@ -1,5 +1,5 @@
 
-import { ADD_TODO as ADDED, TOGGLED, DELETE_TODO as DELETED, ALL_COMPLETED, CLEAR_COMPLETED, COLOR_SELECTED } from "./actionTypes"
+import { ADD_TODO as ADDED, LOADED_TODO as LOADED, TOGGLED, DELETE_TODO as DELETED, ALL_COMPLETED, CLEAR_COMPLETED, COLOR_SELECTED } from "./actionTypes"
 import initialState from "./initialState";
 
 const nextTodoId = (todos) => {
@@ -10,6 +10,9 @@ const nextTodoId = (todos) => {
 
 const todoReducers = (state = initialState, action) => {
   switch (action.type) {
+    case LOADED:
+      return action.payload;
+
     case ADDED:
       return [
         ...state,
@@ -17,9 +20,9 @@ const todoReducers = (state = initialState, action) => {
           id: nextTodoId(state),
           text: action.payload,
           completed: false,
-          //  color: action.color
         }
       ]
+
     case TOGGLED:
       return state.map(todo => {
         if (todo.id === action.payload) {
@@ -29,14 +32,6 @@ const todoReducers = (state = initialState, action) => {
           };
         }
         return todo;
-
-        // if(todo.id !== action.payload) {
-        //   return todo;
-        // }
-        // return {
-        //   ...todo,
-        //   completed: !todo.completed
-        // }
       })
 
     case COLOR_SELECTED:
