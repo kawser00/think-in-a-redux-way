@@ -1,6 +1,9 @@
 const { createStore, applyMiddleware } = require('redux');
-const { delayActionMiddleware, fetchAsyncMiddleware } = require('./middlewares');
 const { fetchTodos } = require('./functions');
+const thunk = require('redux-thunk');
+
+//redux thunk package, fetchAsyncMiddleware এর সেম কাজটাই করে দিবে, thunk একইভাবে প্রথম param এ store.dispatch() এবং দ্বিতীয় param a store.getState(), async function এর মধ্যে ভরে দিবে, আমাদেরকে আর fetchAsyncMiddleware এর কাজটা নিজে করতে হবে না ।।
+
 //initial state
 const initialState = {
   todos: []
@@ -9,16 +12,6 @@ const initialState = {
 //reducers
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'todo/addTodo':
-      return {
-        ...state,
-        todos: [
-          ...state.todos,
-          {
-            title: action.payload
-          }
-        ]
-      }
     case 'todo/loadedTodos':
       return {
         ...state,
@@ -34,7 +27,7 @@ const todoReducer = (state = initialState, action) => {
 }
 
 //create store
-const store = createStore(todoReducer, applyMiddleware(delayActionMiddleware, fetchAsyncMiddleware));
+const store = createStore(todoReducer, applyMiddleware(thunk.default));
 
 //subscribe to state changes
 store.subscribe(() => {
@@ -42,16 +35,4 @@ store.subscribe(() => {
 })
 
 //dispatch actions
-
-// store.dispatch({
-//   type:'todo/addTodo',
-//   payload:{title:'Learn Redux with fun'}
-// })
-
-//action for fetch api from the server
-// store.dispatch({
-//   type:'todo/fetchTodos',
-// })
-
-
 store.dispatch(fetchTodos) //fetchTodos is a function body that will call from fetchAsyncMiddleware
