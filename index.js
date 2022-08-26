@@ -1,6 +1,6 @@
-const {createStore, applyMiddleware} = require('redux');
-const {delayActionMiddleware, fetchTodosMiddleware} = require('./middlewares');
-
+const { createStore, applyMiddleware } = require('redux');
+const { delayActionMiddleware, fetchAsyncMiddleware } = require('./middlewares');
+const { fetchTodos } = require('./functions');
 //initial state
 const initialState = {
   todos: []
@@ -8,7 +8,7 @@ const initialState = {
 
 //reducers
 const todoReducer = (state = initialState, action) => {
-  switch (action.payload) {
+  switch (action.type) {
     case 'todo/addTodo':
       return {
         ...state,
@@ -29,15 +29,15 @@ const todoReducer = (state = initialState, action) => {
       }
 
     default:
-      return action;
+      break;
   }
 }
 
 //create store
-const store = createStore(todoReducer, applyMiddleware(delayActionMiddleware,fetchTodosMiddleware));
+const store = createStore(todoReducer, applyMiddleware(delayActionMiddleware, fetchAsyncMiddleware));
 
 //subscribe to state changes
-store.subscribe(()=> {
+store.subscribe(() => {
   console.log(store.getState());
 })
 
@@ -49,6 +49,9 @@ store.subscribe(()=> {
 // })
 
 //action for fetch api from the server
-store.dispatch({
-  type:'todo/fetchTodos',
-})
+// store.dispatch({
+//   type:'todo/fetchTodos',
+// })
+
+
+store.dispatch(fetchTodos) //fetchTodos is a function body that will call from fetchAsyncMiddleware
