@@ -8,7 +8,6 @@ store.subscribe(() => {
 
 // disptach actions
 store.dispatch(increment());
-
 store.dispatch(increment());
 
-store.dispatch(decrement());
+// store.dispatch(decrement());
