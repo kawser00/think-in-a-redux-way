@@ -1,0 +1,10 @@
+{
+  "transactions": [
+    {
+      "name": "Pendrive",
+      "type": "expense",
+      "amount": 2000500,
+      "id": 3
+    }
+  ]
+}

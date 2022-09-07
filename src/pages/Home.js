@@ -1,15 +1,16 @@
 import React from 'react';
-import VideoGrid from '../components/grid/VideoGrid';
-import Tags from '../components/tags/Tags';
-import Pagination from '../components/ui/Pagination';
+import Balance from '../components/Balance';
+import Form from '../components/Form';
+import Layout from '../components/Layout';
+import Transactions from '../components/Transactions';
 
 const Home = () => {
   return (
-    <>
-      <Tags />
-      <VideoGrid />
-      <Pagination />
-    </>
+    <Layout>
+      <Balance />
+      <Form />
+      <Transactions />
+    </Layout>
   );
 };
 
